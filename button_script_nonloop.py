@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
 
 
 def button_callback(channel):
-    print("Button was pushed!")
+    return True
 
 
 GPIO.setwarnings(False)  # Ignore warning for now
@@ -16,3 +16,7 @@ GPIO.add_event_detect(10, GPIO.RISING, callback=button_callback)
 
 message = input("Press enter to quit\n\n")  # Run until someone presses enter
 GPIO.cleanup()  # Clean up
+
+
+if button_callback() == True:
+    print('Spillet har startet!')
