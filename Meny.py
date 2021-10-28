@@ -6,8 +6,7 @@ from signal import pause
 
 button = Button(14)
 
-def button_pressed():
-    return 1
+button_pressed = True
 button.when_pressed = button_pressed
 
 screen = curses.initscr()
@@ -43,7 +42,7 @@ for i in range( 1, max_row + 1 ):
 screen.refresh()
 box.refresh()
 
-x = screen.getch()
+x = True
 while x != 27:
     if x == button.when_pressed:
         if page == 1:
