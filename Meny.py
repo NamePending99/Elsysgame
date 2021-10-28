@@ -1,8 +1,10 @@
 from __future__ import division  #You don't need this in Python3
 import curses
 from math import *
+from gpiozero import Button
+from signal import pause
 
-
+button = Button(10)
 
 screen = curses.initscr()
 curses.noecho()
@@ -39,7 +41,7 @@ box.refresh()
 
 x = screen.getch()
 while x != 27:
-    if x == curses.KEY_DOWN:
+    if x == button.when_pressed:
         if page == 1:
             if position < i:
                 position = position + 1
