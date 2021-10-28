@@ -6,6 +6,8 @@ from signal import pause
 
 button = Button(10)
 button.when_pressed = button_pressed
+def button_pressed():
+    return True
 
 screen = curses.initscr()
 curses.noecho()
