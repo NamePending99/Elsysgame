@@ -58,29 +58,29 @@ while x != 27:
             else:
                 page = page + 1
                 position = 1 + ( max_row * ( page - 1 ) )
-    if x == curses.KEY_UP:
-        if page == 1:
-            if position > 1:
-                position = position - 1
-        else:
-            if position > ( 1 + ( max_row * ( page - 1 ) ) ):
-                position = position - 1
-            else:
-                page = page - 1
-                position = max_row + ( max_row * ( page - 1 ) )
-    if x == curses.KEY_LEFT:
-        if page > 1:
-            page = page - 1
-            position = 1 + ( max_row * ( page - 1 ) )
+   # if x == curses.KEY_UP:
+    #    if page == 1:
+     #       if position > 1:
+      #          position = position - 1
+       # else:
+        #    if position > ( 1 + ( max_row * ( page - 1 ) ) ):
+         #       position = position - 1
+          #  else:
+           #     page = page - 1
+            #    position = max_row + ( max_row * ( page - 1 ) )
+    #if x == curses.KEY_LEFT:
+     #   if page > 1:
+      #      page = page - 1
+       #     position = 1 + ( max_row * ( page - 1 ) )
 
-    if x == curses.KEY_RIGHT:
-        if page < pages:
-            page = page + 1
-            position = ( 1 + ( max_row * ( page - 1 ) ) )
-    if x == ord( "\n" ) and row_num != 0:
-        screen.erase()
-        screen.border( 0 )
-        screen.addstr( 14, 3, "YOU HAVE PRESSED '" + strings[ position - 1 ] + "' ON POSITION " + str( position ) )
+    #if x == curses.KEY_RIGHT:
+     #   if page < pages:
+      #      page = page + 1
+       #     position = ( 1 + ( max_row * ( page - 1 ) ) )
+    #if x == ord( "\n" ) and row_num != 0:
+     #   screen.erase()
+      #  screen.border( 0 )
+       # screen.addstr( 14, 3, "YOU HAVE PRESSED '" + strings[ position - 1 ] + "' ON POSITION " + str( position ) )
 
     box.erase()
     screen.border( 0 )
