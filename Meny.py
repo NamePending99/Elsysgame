@@ -6,7 +6,8 @@ from signal import pause
 
 button = Button(14)
 
-button_pressed = True
+def button_pressed():
+    return True
 button.when_pressed = button_pressed
 
 screen = curses.initscr()
