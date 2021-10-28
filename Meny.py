@@ -45,7 +45,7 @@ box.refresh()
 
 x = screen.getch()
 while x != 27:
-    if x == button_pressed():
+    if x == button.when_pressed:
         if page == 1:
             if position < i:
                 position = position + 1
