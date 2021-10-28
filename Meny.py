@@ -5,6 +5,7 @@ from gpiozero import Button
 from signal import pause
 
 button = Button(10)
+button.when_pressed = button_pressed
 
 screen = curses.initscr()
 curses.noecho()
