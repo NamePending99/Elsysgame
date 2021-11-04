@@ -72,6 +72,8 @@ def main():
                     score(spiller1_ord, spiller2_ord)
 
             if counter >= 2:
+                loop = False
+
                 if globalscore_p1 > globalscore_p2:
                     loop = resultater("Spiller 1")
                     globalscore_p1 = 0
