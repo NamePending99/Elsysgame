@@ -1,4 +1,5 @@
 # Active libraries
+
 import pygame
 import time
 from sys import exit
@@ -19,24 +20,22 @@ sel_arrow = pygame.image.load("./down-arrow.png")
 
 
 def main():
-    startside()
-
     running = True
-    pygame.display.set_caption("N&N Minigame")
-
     while running:
+        startside()
+        pygame.display.set_caption("N&N Minigame")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    player_selection()
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_s:
-                    player_selection()
+                    spiller1_ord = player_selection()
+                    spiller2_ord = player_selection()
+                    
 
-        pygame.display.update()
-        clock.tick(60)
+            
+            pygame.display.update()
+            clock.tick(60)
 
 
 def startside():
@@ -181,7 +180,8 @@ def player_selection():
                     elif (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
                         word_comb += ord_dict[1][3]
                         n += 1
-
+    
+                
         screen.fill('Orange')
         screen.blit(seksjoner, (100, 25))
         text_to_screen(word_comb, 190, 50)
@@ -191,10 +191,11 @@ def player_selection():
         text_to_screen(ord_dict[1][3], 450, 480)
         arrow_pos(sel_arrow_X, sel_arrow_Y)
         pygame.display.update()
-    resultat()
+    time.sleep(2)          
+    return word_comb
 
+    
 
 if __name__ == "__main__":
     # call the main function
     main()
-#
