@@ -27,6 +27,10 @@ def main():
 
     ps1 = 0
     ps2 = 0
+    
+    globalscore_p1 = 0
+    globalscore_p2 = 0
+    counter = 0
 
     while running:
         pygame.display.set_caption("N&N Minigame")
