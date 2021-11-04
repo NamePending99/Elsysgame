@@ -27,7 +27,8 @@ def main():
 
     ps1 = 0
     ps2 = 0
-    
+    reset = 0
+
     globalscore_p1 = 0
     globalscore_p2 = 0
     counter = 0
@@ -72,9 +73,20 @@ def main():
 
             if counter >= 2:
                 if globalscore_p1 > globalscore_p2:
-                    resultater("Spiller 1")
+                    loop = resultater("Spiller 1")
+                    globalscore_p1 = 0
+                    globalscore_p2 = 0
+                    counter = 0
+                    if loop == True:
+                        startside()
                 else:
-                    resultater("Spiller 2")
+                    loop = resultater("Spiller 2")
+                    globalscore_p1 = 0
+                    globalscore_p2 = 0
+                    counter = 0
+                    if loop == True:
+                        startside()
+
             pygame.display.update()
             clock.tick(60)
 
