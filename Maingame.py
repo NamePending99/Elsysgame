@@ -27,25 +27,67 @@ def main():
 
     ps1 = 0
     ps2 = 0
+    reset = 0
+
+    globalscore_p1 = 0
+    globalscore_p2 = 0
+    counter = 0
 
     while running:
         pygame.display.set_caption("N&N Minigame")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     spiller1_ord = player_selection()
                     spiller2_ord = player_selection()
                     score(spiller1_ord, spiller2_ord)
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     print("Spiller 1 får poeng")
                     ps1 += 1
                 if event.key == pygame.K_2:
+                    ps2 += 1
                     print("Spiller 2 får poeng")
-                    print("Score spiller 1:", ps1)
-                    print("Score spiller 2: ", ps2)
+
+            if (ps1 != 0) or (ps2 != 0):
+                if ps1 > ps2:
+                    globalscore_p1 += 1
+                    ps1 = ps2 = 0
+                    counter += 1
+
+                    spiller1_ord = player_selection()
+                    spiller2_ord = player_selection()
+                    score(spiller1_ord, spiller2_ord)
+                else:
+                    globalscore_p2 += 1
+                    ps1 = ps2 = 0
+                    counter += 1
+
+                    spiller1_ord = player_selection()
+                    spiller2_ord = player_selection()
+                    score(spiller1_ord, spiller2_ord)
+
+            if counter >= 2:
+                loop = False
+
+                if globalscore_p1 > globalscore_p2:
+                    loop = resultater("Spiller 1")
+                    globalscore_p1 = 0
+                    globalscore_p2 = 0
+                    counter = 0
+                    if loop == True:
+                        startside()
+                else:
+                    loop = resultater("Spiller 2")
+                    globalscore_p1 = 0
+                    globalscore_p2 = 0
+                    counter = 0
+                    if loop == True:
+                        startside()
 
             pygame.display.update()
             clock.tick(60)
@@ -108,7 +150,7 @@ def startside():
     screen.blit(knapp_surface_tekst, (270, 730))
 
 
-def resultater(spill_vinner):
+def resultater(spill_vinner="PLACEHOLDER"):
     # Definerer fonten til teksten her:
     screen.fill('Orange')
     text_font = pygame.font.Font(None, 90)
@@ -117,14 +159,16 @@ def resultater(spill_vinner):
 # Definerer innhold som skal rendres:
     text_overskrift = text_font.render(
         'Vinneren av Nytt på Nytt Mini game Show er: ', False, 'White')
-    time.sleep(2)
     text_vinner = text_font_overskirft.render(spill_vinner, False, 'Yellow')
 
 # Rendrer ut på skjermen:
     screen.blit(text_overskrift, (400, 200))
-    screen.blit(text_vinner, (750, 750))
-    pygame.display.update()
+    screen.blit(text_vinner, (100, 100))
 
+    pygame.display.update()
+    time.sleep(5)
+
+    return True
 
 
 def player_selection():
@@ -205,7 +249,7 @@ def player_selection():
         text_to_screen(ord_dict[1][3], 450, 480)
         arrow_pos(sel_arrow_X, sel_arrow_Y)
         pygame.display.update()
-    time.sleep(2)
+    time.sleep(1)
     return word_comb
 
 
@@ -223,7 +267,7 @@ def score(answer_p1, answer_p2):
     page_header = text_font.render(
         'Spillvert, gi poeng til spiller med best svar', False, white)
     text_p1 = text_font.render('Spiller 1', False, white)
-    text_p2 = text_font.render('Spiller 1', False, white)
+    text_p2 = text_font.render('Spiller 2', False, white)
     text_answer_p1 = text_font.render(answer_p1, False, white)
     text_answer_p2 = text_font.render(answer_p2, False, white)
 
