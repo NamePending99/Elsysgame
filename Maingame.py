@@ -34,6 +34,7 @@ def main():
     counter = 0
 
     while running:
+        word_choice = random.randint(1, len(ord_dict))
         pygame.display.set_caption("N&N Minigame")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,8 +42,8 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
+                    spiller1_ord = player_selection(word_choice)
+                    spiller2_ord = player_selection(word_choice)
                     score(spiller1_ord, spiller2_ord)
 
             if event.type == pygame.KEYDOWN:
@@ -59,16 +60,16 @@ def main():
                     ps1 = ps2 = 0
                     counter += 1
 
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
+                    spiller1_ord = player_selection(word_choice)
+                    spiller2_ord = player_selection(word_choice)
                     score(spiller1_ord, spiller2_ord)
                 else:
                     globalscore_p2 += 1
                     ps1 = ps2 = 0
                     counter += 1
 
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
+                    spiller1_ord = player_selection(word_choice)
+                    spiller2_ord = player_selection(word_choice)
                     score(spiller1_ord, spiller2_ord)
 
             if counter >= 2:
@@ -171,7 +172,7 @@ def resultater(spill_vinner="PLACEHOLDER"):
     return True
 
 
-def player_selection():
+def player_selection(ord_kode):
 
     # Her har jeg laget hjelpefunksjoner og andre ting som trengs:
 
@@ -216,40 +217,40 @@ def player_selection():
                         sel_arrow_Y = 155
                 if event.key == pygame.K_LEFT:  # selection logic, every "if" is for the first word, the elifs are for second words
                     if (sel_arrow_X == 255) and (sel_arrow_Y == 155) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][0]
+                        word_comb = ord_dict[ord_kode][0]
                         n += 1
                     elif (sel_arrow_X == 255) and (sel_arrow_Y == 155) and (len(word_comb) > 1):
-                        word_comb += ord_dict[1][0]
+                        word_comb += ord_dict[ord_kode][0]
                         n += 1
                     if (sel_arrow_X == 530) and (sel_arrow_Y == 155) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][1]
+                        word_comb = ord_dict[ord_kode][1]
                         n += 1
                     elif (sel_arrow_X == 530) and (sel_arrow_Y == 155) and (len(word_comb) > 0):
-                        word_comb += ord_dict[1][1]
+                        word_comb += ord_dict[ord_kode][1]
                         n += 1
                     if (sel_arrow_X == 255) and (sel_arrow_Y == 350) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][2]
+                        word_comb = ord_dict[ord_kode][2]
                         n += 1
                     elif (sel_arrow_X == 255) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
-                        word_comb += ord_dict[1][2]
+                        word_comb += ord_dict[ord_kode][2]
                         n += 1
                     if (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][3]
+                        word_comb = ord_dict[ord_kode][3]
                         n += 1
                     elif (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
-                        word_comb += ord_dict[1][3]
+                        word_comb += ord_dict[ord_kode][3]
                         n += 1
 
         screen.fill('Orange')
         screen.blit(seksjoner, (100, 25))
         text_to_screen(word_comb, 190, 50)
-        text_to_screen(ord_dict[1][0], 190, 240)
-        text_to_screen(ord_dict[1][1], 450, 240)
-        text_to_screen(ord_dict[1][2], 190, 480)
-        text_to_screen(ord_dict[1][3], 450, 480)
+        text_to_screen(ord_dict[ord_kode][0], 190, 240)
+        text_to_screen(ord_dict[ord_kode][1], 450, 240)
+        text_to_screen(ord_dict[ord_kode][2], 190, 480)
+        text_to_screen(ord_dict[ord_kode][3], 450, 480)
         arrow_pos(sel_arrow_X, sel_arrow_Y)
         pygame.display.update()
-    time.sleep(1)
+    time.sleep(2)
     return word_comb
 
 
