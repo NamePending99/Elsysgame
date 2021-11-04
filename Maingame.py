@@ -33,20 +33,44 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     spiller1_ord = player_selection()
                     spiller2_ord = player_selection()
                     score(spiller1_ord, spiller2_ord)
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     print("Spiller 1 får poeng")
                     ps1 += 1
                 if event.key == pygame.K_2:
+                    ps2 += 1
                     print("Spiller 2 får poeng")
-                    print("Score spiller 1:", ps1)
-                    print("Score spiller 2: ", ps2)
 
+            if (ps1 != 0) or (ps2 != 0):
+                if ps1 > ps2:
+                    globalscore_p1 += 1
+                    ps1 = ps2 = 0
+                    counter += 1
+
+                    spiller1_ord = player_selection()
+                    spiller2_ord = player_selection()
+                    score(spiller1_ord, spiller2_ord)
+                else:
+                    globalscore_p2 += 1
+                    ps1 = ps2 = 0
+                    counter += 1
+
+                    spiller1_ord = player_selection()
+                    spiller2_ord = player_selection()
+                    score(spiller1_ord, spiller2_ord)
+
+            if counter >= 2:
+                if globalscore_p1 > globalscore_p2:
+                    resultater("Spiller 1")
+                else:
+                    resultater("Spiller 2")
             pygame.display.update()
             clock.tick(60)
 
