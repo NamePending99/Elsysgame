@@ -21,8 +21,9 @@ sel_arrow = pygame.image.load("./down-arrow.png")
 
 def main():
     running = True
+    startside()
+
     while running:
-        startside()
         pygame.display.set_caption("N&N Minigame")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -31,9 +32,8 @@ def main():
                 if event.key == pygame.K_s:
                     spiller1_ord = player_selection()
                     spiller2_ord = player_selection()
-                    
+                    score(spiller1_ord, spiller2_ord)
 
-            
             pygame.display.update()
             clock.tick(60)
 
@@ -180,8 +180,7 @@ def player_selection():
                     elif (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
                         word_comb += ord_dict[1][3]
                         n += 1
-    
-                
+
         screen.fill('Orange')
         screen.blit(seksjoner, (100, 25))
         text_to_screen(word_comb, 190, 50)
@@ -191,10 +190,62 @@ def player_selection():
         text_to_screen(ord_dict[1][3], 450, 480)
         arrow_pos(sel_arrow_X, sel_arrow_Y)
         pygame.display.update()
-    time.sleep(2)          
+    time.sleep(2)
     return word_comb
 
-    
+
+def score(answer_p1, answer_p2):
+    running = True
+    # STYLE
+    pygame.display.set_caption("N&N Minigame")
+
+    orange = [255, 165, 0]
+    white = [255, 255, 255]
+    screen.fill(orange)
+
+    # ELEMENTS
+    text_font = pygame.font.Font(None, 50)  # Delete after merge if duplicate
+    page_header = text_font.render(
+        'Spillvert, gi poeng til spiller med best svar', False, white)
+    text_p1 = text_font.render('Spiller 1', False, white)
+    text_p2 = text_font.render('Spiller 1', False, white)
+    text_answer_p1 = text_font.render(answer_p1, False, white)
+    text_answer_p2 = text_font.render(answer_p2, False, white)
+
+    # Draw text elements
+    screen.blit(page_header, (1278//4, 50))  # Draw page_header
+    screen.blit(text_p1, (1278//6, 300))  # Draw text_p1
+    screen.blit(text_p2, ((1278//6*4), 300))  # Draw text_p2
+    screen.blit(text_answer_p1, (1278//6, 500))  # Answer_p1
+    screen.blit(text_answer_p2, (1278//6*4, 500))  # Answer_p2
+
+    # Center Line
+    startX = 1278//2
+    startY = 110
+    endX = 1278//2
+    endY = 750
+    width = 20
+    pygame.draw.line(screen, white, (startX, startY), (endX, endY), width)
+
+    # Cross Line
+    startX2 = 0
+    startY2 = 110
+    endX2 = 1278
+    endY2 = startY2
+    pygame.draw.line(screen, white,
+                     (startX2, startY2), (endX2, endY2), width)
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    print("Spiller 1 får poeng")
+                    return 1, 0
+                if event.key == pygame.K_2:
+                    print("Spiller 2 får poeng")
+                    return 0, 1
+    # pygame.display.update()
+
 
 if __name__ == "__main__":
     # call the main function
