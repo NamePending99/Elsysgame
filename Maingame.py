@@ -117,12 +117,14 @@ def resultater(spill_vinner):
 # Definerer innhold som skal rendres:
     text_overskrift = text_font.render(
         'Vinneren av Nytt på Nytt Mini game Show er: ', False, 'White')
+    time.sleep(2)
     text_vinner = text_font_overskirft.render(spill_vinner, False, 'Yellow')
 
 # Rendrer ut på skjermen:
     screen.blit(text_overskrift, (400, 200))
     screen.blit(text_vinner, (750, 750))
     pygame.display.update()
+
 
 
 def player_selection():
