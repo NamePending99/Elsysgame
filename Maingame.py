@@ -148,7 +148,7 @@ def startside():
     screen.blit(knapp_surface_tekst, (270, 730))
 
 
-def resultater(spill_vinner):
+def resultater(spill_vinner="PLACEHOLDER"):
     # Definerer fonten til teksten her:
     screen.fill('Orange')
     text_font = pygame.font.Font(None, 90)
@@ -157,14 +157,16 @@ def resultater(spill_vinner):
 # Definerer innhold som skal rendres:
     text_overskrift = text_font.render(
         'Vinneren av Nytt på Nytt Mini game Show er: ', False, 'White')
-    time.sleep(2)
     text_vinner = text_font_overskirft.render(spill_vinner, False, 'Yellow')
 
 # Rendrer ut på skjermen:
     screen.blit(text_overskrift, (400, 200))
-    screen.blit(text_vinner, (750, 750))
-    pygame.display.update()
+    screen.blit(text_vinner, (100, 100))
 
+    pygame.display.update()
+    time.sleep(5)
+
+    return True
 
 
 def player_selection():
@@ -245,7 +247,7 @@ def player_selection():
         text_to_screen(ord_dict[1][3], 450, 480)
         arrow_pos(sel_arrow_X, sel_arrow_Y)
         pygame.display.update()
-    time.sleep(2)
+    time.sleep(1)
     return word_comb
 
 
@@ -263,7 +265,7 @@ def score(answer_p1, answer_p2):
     page_header = text_font.render(
         'Spillvert, gi poeng til spiller med best svar', False, white)
     text_p1 = text_font.render('Spiller 1', False, white)
-    text_p2 = text_font.render('Spiller 1', False, white)
+    text_p2 = text_font.render('Spiller 2', False, white)
     text_answer_p1 = text_font.render(answer_p1, False, white)
     text_answer_p2 = text_font.render(answer_p2, False, white)
 
