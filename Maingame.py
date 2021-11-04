@@ -14,7 +14,7 @@ pygame.init()
 # global variables
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-ord_dict = {1: ['KANON', 'KRISTEN', 'SLANKE', 'GRESSKAR', 'PORNO']}
+ord_dict = {1: ['kanon', 'kristen', 'slanke', 'gresskar', 'porno'], 2: ['kultur', 'øl', 'alder', 'pave', 'grilldress'], 3: ['liste', 'bolle', 'nav', 'jåle', 'snø'], 4: ['trønder', 'ærlighet', 'banne', 'influensa', 'bok'], 5: ['politiker', 'kjærlighet', 'skip', 'kannibal', 'vin'], 6: ['høyre', 'halal', 'fotballspiller', 'vaksine', 'bolig'], 7: ['myte', 'taliban', 'svenske', 'smitte', 'squash'], 8: ['bonde', 'elsparkesykkel', 'regjering', 'spøkelse', 'restaurant'], 9: ['olje', 'lefse', 'forfatter', 'trone', 'sv'], 10: ['skatt', 'pave', 'småbruk', 'coach', 'vaksine'], 11: ['munch', 'kokain', 'fotball', 'strøm', 'flodhest']}
 seksjoner = pygame.image.load("./sections.png")
 sel_arrow = pygame.image.load("./down-arrow.png")
 
