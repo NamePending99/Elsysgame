@@ -20,8 +20,13 @@ sel_arrow = pygame.image.load("./down-arrow.png")
 
 
 def main():
+
     running = True
+    runde_teller = 0
     startside()
+
+    ps1 = 0
+    ps2 = 0
 
     while running:
         pygame.display.set_caption("N&N Minigame")
@@ -33,6 +38,14 @@ def main():
                     spiller1_ord = player_selection()
                     spiller2_ord = player_selection()
                     score(spiller1_ord, spiller2_ord)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    print("Spiller 1 får poeng")
+                    ps1 += 1
+                if event.key == pygame.K_2:
+                    print("Spiller 2 får poeng")
+                    print("Score spiller 1:", ps1)
+                    print("Score spiller 2: ", ps2)
 
             pygame.display.update()
             clock.tick(60)
@@ -195,7 +208,7 @@ def player_selection():
 
 
 def score(answer_p1, answer_p2):
-    running = True
+
     # STYLE
     pygame.display.set_caption("N&N Minigame")
 
@@ -235,16 +248,7 @@ def score(answer_p1, answer_p2):
     pygame.draw.line(screen, white,
                      (startX2, startY2), (endX2, endY2), width)
 
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_1:
-                    print("Spiller 1 får poeng")
-                    return 1, 0
-                if event.key == pygame.K_2:
-                    print("Spiller 2 får poeng")
-                    return 0, 1
-    # pygame.display.update()
+    pygame.display.update()
 
 
 if __name__ == "__main__":
