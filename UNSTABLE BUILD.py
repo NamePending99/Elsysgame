@@ -8,25 +8,17 @@ from pygame.display import update
 from pygame import image
 from gpiozero import Button
 
-p1_but_next = Button(16)
-p1_but_select = Button(18)
 
-p2_but_next = Button(22)
-p2_but_select = Button(24)
+# GPIO PINS MÅ SETTES TIL RIKTIG KNAPP (1/6)
+p1Next = Button(16)
+p1Select = Button(18)
 
-host_start = Button(8)
+p2Next = Button(22)
+p2Select = Button(24)
+
+hostStart = Button(8)
 host_p1 = Button(10)
 host_p2 = Button(12)
-
-bool_p1next = False
-bool_p1select = False
-
-bool_p2next = False
-bool_p2select = False
-
-bool_hostStart = False
-bool_hostP1 = False
-bool_hostP2 = False
 
 
 # initialize libaries
@@ -34,12 +26,15 @@ pygame.init()
 
 # global variables
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-ord_dict = {1: ['KANON', 'KRISTEN', 'SLANKE', 'GRESSKAR', 'PORNO']}
+screen = pygame.display.set_mode((500, 300))  # SJEKK SKJERM STØRRELSE (2/6)
+ord_dict = {1: ['kanon', 'kristen', 'slanke', 'gresskar', 'porno'], 2: ['kultur', 'øl', 'alder', 'pave', 'grilldress'], 3: ['liste', 'bolle', 'nav', 'jåle', 'snø'],
+            4: ['trønder', 'ærlighet', 'banne', 'influensa', 'bok'], 5: ['politiker', 'kjærlighet', 'skip', 'kannibal', 'vin'], 6: ['høyre', 'halal', 'fotballspiller', 'vaksine', 'bolig'],
+            7: ['myte', 'taliban', 'svenske', 'smitte', 'squash'], 8: ['bonde', 'elsparkesykkel', 'regjering', 'spøkelse', 'restaurant'], 9: ['olje', 'lefse', 'forfatter', 'trone', 'sv'],
+            10: ['skatt', 'pave', 'småbruk', 'coach', 'vaksine'], 11: ['munch', 'kokain', 'fotball', 'strøm', 'flodhest']}
 seksjoner = pygame.image.load(
-    "/Users/Bruker/OneDrive/Documents/VS Code/ElsysCode/sections.png")
+    "/Users/Bruker/OneDrive/Documents/VS Code/ElsysCode/sections.png")  # SETT INN RIKTIG DIR (3/6)
 sel_arrow = pygame.image.load(
-    "/Users/Bruker/OneDrive/Documents/VS Code/ElsysCode/down-arrow.png")
+    "/Users/Bruker/OneDrive/Documents/VS Code/ElsysCode/down-arrow.png")  # SETT INN RIKTIG DIR (4/6)
 
 
 def main():
@@ -59,6 +54,7 @@ def main():
     while running:
         pygame.display.set_caption("N&N Minigame")
         for event in pygame.event.get():
+            time.sleep(0.2)
             if event.type == pygame.QUIT:
                 running = False
 
@@ -66,21 +62,18 @@ def main():
                 if event.key == pygame.K_q:
                     running = False
 
-            if bool_hostStart == True:
+            if hostStart.when_pressed == True:
                 spiller1_ord = player_selection()
                 spiller2_ord = player_selection()
                 score(spiller1_ord, spiller2_ord)
-                bool_hostStart = False
 
-            if bool_hostP1 == True:
+            if host_p1 == True:
                 print("Spiller 1 får poeng")
                 ps1 += 1
-                bool_hostP1 == False
 
-            if bool_hostP2 == True:
+            if host_p2 == True:
                 ps2 += 1
                 print("Spiller 2 får poeng")
-                bool_hostP2 == False
 
             if (ps1 != 0) or (ps2 != 0):
                 if ps1 > ps2:
@@ -206,10 +199,10 @@ def player_selection():
 
     # Bilde for starten
     screen.fill('Orange')
-    seksjoner = pygame.image.load("sections.png")
+    seksjoner = pygame.image.load("sections.png")  # SET RIKTIG DIR (5/6)
 
     # Startposisjon til pilen:
-    sel_arrow = pygame.image.load("down-arrow.png")
+    sel_arrow = pygame.image.load("down-arrow.png")  # SETT RIKTIG DIR (6/6)
     sel_arrow_X = 255
     sel_arrow_Y = 155
 
@@ -231,10 +224,7 @@ def player_selection():
 
         # if keystroke is change arrow position, and selection logic
 
-            if bool_p1next == True or bool_p2next == True:  # movement of arrow logic
-                bool_p1next = False
-                bool_p2next = False
-
+            if p1Next.when_pressed == True or p2Next.when_pressed == True:  # movement of arrow logic
                 if (sel_arrow_X == 255) and (sel_arrow_Y == 155):
                     sel_arrow_X = 530
                 elif sel_arrow_X == 530 and sel_arrow_Y == 155:
@@ -246,10 +236,7 @@ def player_selection():
                     sel_arrow_X = 255
                     sel_arrow_Y = 155
             # selection logic, every "if" is for the first word, the elifs are for second words
-            if bool_p1select == True or bool_p2select == True:
-                bool_p1select = False
-                bool_p2select = False
-
+            if p1Select.when_pressed == True or p2Select == True:
                 if (sel_arrow_X == 255) and (sel_arrow_Y == 155) and (len(word_comb) == 0):
                     word_comb = ord_dict[1][0]
                     n += 1
@@ -330,52 +317,6 @@ def score(answer_p1, answer_p2):
                      (startX2, startY2), (endX2, endY2), width)
 
     pygame.display.update()
-
-
-def p1next(bool):
-    global bool_p1next
-    bool_p1next = True
-
-
-def p1select(bool):
-    global bool_p1select
-    bool_p1select = True
-
-
-def p2next(bool):
-    global bool_p2next
-    bool_p2next = True
-
-
-def p2select(bool):
-    global bool_p2select
-    bool_p2select = True
-
-
-def bstarter(bool):
-    global bool_hostStart
-    bool_hostStart = True
-
-
-def p1(bool):
-    global bool_hostP1
-    bool_hostP1 = True
-
-
-def p2(bool):
-    global bool_hostP2
-    bool_hostP2 = True
-
-
-p1_but_next.when_pressed = p1next(bool_p1next)
-p1_but_select.when_pressed = p1select(bool_p1select)
-
-p2_but_next.when_pressed = p2next(bool_p2next)
-p2_but_select.when_pressed = p2select(bool_p2select)
-
-host_start.when_pressed = bstarter(bool_hostStart)
-host_p1.when_pressed = p1(bool_hostP1)
-host_p2.when_pressed = p2(bool_hostP2)
 
 
 if __name__ == "__main__":
