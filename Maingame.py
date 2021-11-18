@@ -273,7 +273,7 @@ def score(answer_p1, answer_p2):
     text_answer_p2 = text_font.render(answer_p2, False, white)
 
     # Draw text elements
-    screen.blit(page_header, (1278//5, 50))  # Draw page_header
+    screen.blit(page_header, (1278//4, 50))  # Draw page_header
     screen.blit(instruction, (1278//5, 800)) #Draw instruction
     screen.blit(text_p1, (1278//6, 300))  # Draw text_p1
     screen.blit(text_p2, ((1278//6*4), 300))  # Draw text_p2
