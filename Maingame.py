@@ -266,13 +266,15 @@ def score(answer_p1, answer_p2):
     text_font = pygame.font.Font(None, 50)  # Delete after merge if duplicate
     page_header = text_font.render(
         'Spillvert, gi poeng til spiller med best svar', False, white)
+    instruction = text_font.render('(Spillere, begrunn svarene deres)', False, white)
     text_p1 = text_font.render('Spiller 1', False, white)
     text_p2 = text_font.render('Spiller 2', False, white)
     text_answer_p1 = text_font.render(answer_p1, False, white)
     text_answer_p2 = text_font.render(answer_p2, False, white)
 
     # Draw text elements
-    screen.blit(page_header, (1278//4, 50))  # Draw page_header
+    screen.blit(page_header, (1278//5, 50))  # Draw page_header
+    screen.blit(instruction, (1278//5, 800)) #Draw instruction
     screen.blit(text_p1, (1278//6, 300))  # Draw text_p1
     screen.blit(text_p2, ((1278//6*4), 300))  # Draw text_p2
     screen.blit(text_answer_p1, (1278//6, 500))  # Answer_p1
