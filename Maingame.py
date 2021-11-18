@@ -108,23 +108,23 @@ def startside():
     text_surface_overskrift = text_font_overskirft.render(
         'Instruks:', False, 'Black')
     text_surface_avsnitt1 = text_font_avsnitt.render(
-        'Hver av de tre spillerene inntar hver sin plass rundt bordet med sin konsoll', False, 'Black')
+        'Spiller 1, spiller 2 og programleder innta plassene', False, 'Black')
     text_surface_avsnitt2 = text_font_avsnitt.render(
-        'En vil ta programlederplassen, og 2 vil fungere som gjester under showet!', False, 'Black')
+        'Sett sammen ukas ord og kom med din begrunnelse!', False, 'Black')
     text_surface_avsnitt3 = text_font_avsnitt.render(
-        'Spørsmålene vil være basert på ukens ord, akkurat som på Nytt på Nytt. Her ', False, 'Black')
+        'Programleder velger så det beste forslaget', False, 'Black')
     text_surface_avsnitt4 = text_font_avsnitt.render(
-        'skal hver av gjestene sette sammen sitt ord, ved alerternativene på skjermen.', False, 'Black')
+        'Det spilles 3 runder før vinneren kåres!', False, 'Black')
     text_surface_avsnitt5 = text_font_avsnitt.render(
-        'Ordet må så begrunnes av gjesten til de andre to. Samme vil skje for gjest 2.', False, 'Black')
+        '', False, 'Black')
     text_surface_avsnitt6 = text_font_avsnitt.render(
-        'Når begge har avlagt og begrunnet sitt svar. Er det opptil programleder om å ', False, 'Black')
+        'Trykk start', False, 'Black')
     text_surface_avsnitt7 = text_font_avsnitt.render(
-        'velge hvilket som var best! Dette vil så skje over 3 runder, og vinner vil tilslutt', False, 'Black')
+        '', False, 'Black')
     text_surface_avsnitt8 = text_font_avsnitt.render(
-        'bli kåret! ', False, 'Black')
+        '', False, 'Black')
     text_surface_avsnitt9 = text_font_avsnitt.render(
-        'Når alle er klare! Trykk på start knappen på programleder konsollen!', False, 'Black')
+        '', False, 'Black')
 
     knapp_surface = pygame.Surface((250, 100))
     knapp_surface_tekst = text_font_knapp.render('Start!', None, 'White')
