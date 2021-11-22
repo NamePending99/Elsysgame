@@ -3,144 +3,129 @@
 import pygame
 import time
 import RPi.GPIO as GPIO
+import random
 from sys import exit
 from pygame import surface
 from pygame.display import update
 from pygame import image
+from signal import signal, SIGINT
 
 
 # initialize libaries
 pygame.init()
 GPIO.setmode(GPIO.BCM)
 
+def quitBoi():
+    print("Babai")
+    pygame.QUIT()
+    exit()
+
 # global variables
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((700, 900))
-ord_dict = {1: ['kanon', 'kristen', 'slanke', 'gresskar', 'porno'], 2: ['kultur', 'øl', 'alder', 'pave', 'grilldress'], 3: ['liste', 'bolle', 'nav', 'jåle', 'snø'], 4: ['trønder', 'ærlighet', 'banne', 'influensa', 'bok'], 5: ['politiker', 'kjærlighet', 'skip', 'kannibal', 'vin'], 6: ['høyre', 'halal', 'fotballspiller',
-                                                                                                                                                                                                                                                                                             'vaksine', 'bolig'], 7: ['myte', 'taliban', 'svenske', 'smitte', 'squash'], 8: ['bonde', 'elsparkesykkel', 'regjering', 'spøkelse', 'restaurant'], 9: ['olje', 'lefse', 'forfatter', 'trone', 'sv'], 10: ['skatt', 'pave', 'småbruk', 'coach', 'vaksine'], 11: ['munch', 'kokain', 'fotball', 'strøm', 'flodhest']}
+screen = pygame.display.set_mode((1400, 900))
+ord_dict = {1: ['kanon', 'kristen', 'slanke', 'gresskar', 'porno'], 2: ['kultur', 'øl', 'alder', 'pave', 'grilldress'],
+            3: ['liste', 'bolle', 'nav', 'jåle', 'snø'], 4: ['trønder', 'ærlighet', 'banne', 'influensa', 'bok'],
+            5: ['politiker', 'kjærlighet', 'skip', 'kannibal', 'vin'], 6: ['høyre', 'halal', 'fotballspiller', 'vaksine', 'bolig'],
+            7: ['myte', 'taliban', 'svenske', 'smitte', 'squash'], 8: ['bonde', 'elsparkesykkel', 'regjering', 'spøkelse', 'restaurant'],
+            9: ['olje', 'lefse', 'forfatter', 'trone', 'sv'], 10: ['skatt', 'pave', 'småbruk', 'coach', 'vaksine'],
+            11: ['munch', 'kokain', 'fotball', 'strøm', 'flodhest']}
 seksjoner = pygame.image.load(
     "/home/pi/elsysgame/sections.png")
 sel_arrow = pygame.image.load(
     "/home/pi/elsysgame/down-arrow.png")
 
-GPIO.setup(2, GPIO.IN,pull_up_down=GPIO.PUD_UP) # Startknapp
-GPIO.setup(3, GPIO.IN,pull_up_down=GPIO.PUD_UP) # Poeng P1
-GPIO.setup(4, GPIO.IN,pull_up_down=GPIO.PUD_UP) # Poeng P2
+GPIO.setup(2, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Startknapp
+GPIO.setup(3, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Poeng P1
+GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Poeng P2
 
-GPIO.setup(17, GPIO.IN,pull_up_down=GPIO.PUD_UP) # Next P1
-GPIO.setup(27, GPIO.IN,pull_up_down=GPIO.PUD_UP) # Select P1
+GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Next P1
+GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Select P1
 
-GPIO.setup(23, GPIO.IN,pull_up_down=GPIO.PUD_UP) # Next P2
-GPIO.setup(24, GPIO.IN,pull_up_down=GPIO.PUD_UP) # Select P2
-
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Next P2
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Select P2
 
 
 def main():
+    signal(SIGINT, quitBoi)
 
     running = True
-    runde_teller = 0
     startside()
-    
-    #buttonstates:
-    state_start = False #
-    pre_start = False #
-    
-    s_p1 = False #
-    pre_p1 = False #
-    
-    s_p2 = False # 
-    pre_p2 = False # 
-    
-    s_next_p1 = False #
-    pre_next_p1 = False #
-    
-    s_select_p1 = False #
-    pre_select_p1 = False #
-    
-    s_next_p2 = False #
-    pre_next_p2 = False #
-    
-    s_select_p2 = False #
-    pre_select_p2 = False #
 
-    ps1 = 0
-    ps2 = 0
-    reset = 0
+    # buttonstates:
+    state_start = False
+    pre_start = False
+
+    s_next_p1 = False
+    pre_next_p1 = False
+
+    s_select_p1 = False
+    pre_select_p1 = False
+
+    s_next_p2 = False
+    pre_next_p2 = False
+
+    s_select_p2 = False
+    pre_select_p2 = False
 
     globalscore_p1 = 0
     globalscore_p2 = 0
-    counter = 0
 
     while running:
         pygame.display.set_caption("N&N Minigame")
         time.sleep(0.2)
-        
+
         pre_start = state_start
         state_start = GPIO.input(2)
-        
-        pre_p1 = s_p1
-        s_p1 = GPIO.input(3)
-        
-        pre_p2 = s_p2
-        s_p2 = GPIO.input(4)
-        
 
-        
-        
         if pre_start and not state_start:
-            spiller1_ord = player_selection()
-            spiller2_ord = player_selection()
-            score(spiller1_ord, spiller2_ord)
-            
-        if pre_p1 and not s_p1:
-            print("Spiller 1 får poeng")
-            ps1 += 1
-            
-        if pre_p2 and not s_p2:
-            ps2 += 1
-            print("Spiller 2 får poeng")
-            
-        if (ps1 != 0) or (ps2 != 0):
-            if ps1 > ps2:
+            print("Starter runde 1")
+            rando_int = random.randint(1, 11)
+            spiller1_ord = player_selection(rando_int)  # Round 1
+            spiller2_ord = player_selection(rando_int)
+            point = score(spiller1_ord, spiller2_ord)
+
+            if point == "P1":
                 globalscore_p1 += 1
-                ps1 = ps2 = 0
-                counter += 1
-
-                spiller1_ord = player_selection()
-                spiller2_ord = player_selection()
-                score(spiller1_ord, spiller2_ord)
-            else:
+                print("Point P1")
+            elif point == "P2":
                 globalscore_p2 += 1
-                ps1 = ps2 = 0
-                counter += 1
+                print("Point P2")
 
-                spiller1_ord = player_selection()
-                spiller2_ord = player_selection()
-                score(spiller1_ord, spiller2_ord)
-    
-        if counter >= 2:
-            loop = False
+            rando_int2 = random.randint(1, 11)
+            spiller1_ord = player_selection(rando_int2)  # Round 2
+            spiller2_ord = player_selection(rando_int2)
+            point = score(spiller1_ord, spiller2_ord)
 
-            if globalscore_p1 > globalscore_p2:
-                loop = resultater("Spiller 1")
+            if point == "P1":
+                globalscore_p1 += 1
+                print("Point P1")
+            elif point == "P2":
+                globalscore_p2 += 1
+                print("Point P2")
+
+            rando_int3 = random.randint(1, 11)
+            spiller1_ord = player_selection(rando_int3)  # Round 3
+            spiller2_ord = player_selection(rando_int3)
+            point = score(spiller1_ord, spiller2_ord)
+
+            if point == "P1":
+                globalscore_p1 += 1
+                print("Point P1")
+            elif point == "P2":
+                globalscore_p2 += 1
+                print("Point P2")
+
+            if globalscore_p1 > globalscore_p2:  # Velger vinner
                 globalscore_p1 = 0
                 globalscore_p2 = 0
-                counter = 0
-                if loop == True:
-                    startside()
-            else:
-                loop = resultater("Spiller 2")
+                resultater("Spiller 1")
+                startside()
+            elif globalscore_p2 > globalscore_p1:
                 globalscore_p1 = 0
                 globalscore_p2 = 0
-                counter = 0
-                if loop == True:
-                    startside()
-            
-        
-        
-        
-        
-        
+                resultater("Spiller 2")
+                startside()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -149,93 +134,43 @@ def main():
                 if event.key == pygame.K_q:
                     running = False
 
-            if event.type == pygame.KEYDOWN: #
-                if event.key == pygame.K_s:
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
-                    score(spiller1_ord, spiller2_ord)
-
-            if event.type == pygame.KEYDOWN: ##
-                if event.key == pygame.K_1:
-                    print("Spiller 1 får poeng")
-                    ps1 += 1
-                if event.key == pygame.K_2:
-                    ps2 += 1
-                    print("Spiller 2 får poeng")
-
-            if (ps1 != 0) or (ps2 != 0):
-                if ps1 > ps2:
-                    globalscore_p1 += 1
-                    ps1 = ps2 = 0
-                    counter += 1
-
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
-                    score(spiller1_ord, spiller2_ord)
-                else:
-                    globalscore_p2 += 1
-                    ps1 = ps2 = 0
-                    counter += 1
-
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
-                    score(spiller1_ord, spiller2_ord)
-
-            if counter >= 2:
-                loop = False
-
-                if globalscore_p1 > globalscore_p2:
-                    loop = resultater("Spiller 1")
-                    globalscore_p1 = 0
-                    globalscore_p2 = 0
-                    counter = 0
-                    if loop == True:
-                        startside()
-                else:
-                    loop = resultater("Spiller 2")
-                    globalscore_p1 = 0
-                    globalscore_p2 = 0
-                    counter = 0
-                    if loop == True:
-                        startside()
-
             pygame.display.update()
             clock.tick(60)
-    print("Am i ded?")
+    print("Exited")
 
 
 def startside():
     # Definerer her fonten til de ulike tekt boksene:
     # None sier hvilken font, fint ttf fil!
+    print('Startside')
     text_font = pygame.font.Font(None, 70)
     text_font_overskirft = pygame.font.Font(None, 50)
     text_font_avsnitt = pygame.font.Font(None, 40)
     text_font_knapp = pygame.font.Font(None, 60)
 
-
-#  Definerer her innhold i tekstboksene:
+    #  Definerer her innhold i tekstboksene:
     text_overskrift = text_font.render(
         'Nytt på Nytt Mini Game Show!', False, 'Orange')
     text_surface_overskrift = text_font_overskirft.render(
         'Instruks:', False, 'Black')
     text_surface_avsnitt1 = text_font_avsnitt.render(
-        'Hver av de tre spillerene inntar hver sin plass rundt bordet med sin konsoll', False, 'Black')
+        'Spiller 1, spiller 2 og programleder innta plassene', False, 'Black')
     text_surface_avsnitt2 = text_font_avsnitt.render(
-        'En vil ta programlederplassen, og 2 vil fungere som gjester under showet!', False, 'Black')
+        'Sett sammen ukas ord og kom med din begrunnelse!', False, 'Black')
     text_surface_avsnitt3 = text_font_avsnitt.render(
-        'Spørsmålene vil være basert på ukens ord, akkurat som på Nytt på Nytt. Her ', False, 'Black')
+        'Programleder velger så det beste forslaget', False, 'Black')
     text_surface_avsnitt4 = text_font_avsnitt.render(
-        'skal hver av gjestene sette sammen sitt ord, ved alerternativene på skjermen.', False, 'Black')
+        'Det spilles 3 runder før vinneren kåres!', False, 'Black')
     text_surface_avsnitt5 = text_font_avsnitt.render(
-        'Ordet må så begrunnes av gjesten til de andre to. Samme vil skje for gjest 2.', False, 'Black')
+        '', False, 'Black')
     text_surface_avsnitt6 = text_font_avsnitt.render(
-        'Når begge har avlagt og begrunnet sitt svar. Er det opptil programleder om å ', False, 'Black')
+        'Trykk start', False, 'Black')
     text_surface_avsnitt7 = text_font_avsnitt.render(
-        'velge hvilket som var best! Dette vil så skje over 3 runder, og vinner vil tilslutt', False, 'Black')
+        '', False, 'Black')
     text_surface_avsnitt8 = text_font_avsnitt.render(
-        'bli kåret! ', False, 'Black')
+        '', False, 'Black')
     text_surface_avsnitt9 = text_font_avsnitt.render(
-        'Når alle er klare! Trykk på start knappen på programleder konsollen!', False, 'Black')
+        '', False, 'Black')
 
     knapp_surface = pygame.Surface((250, 100))
     knapp_surface_tekst = text_font_knapp.render('Start!', None, 'White')
@@ -259,9 +194,11 @@ def startside():
     # Knappen:
     screen.blit(knapp_surface, (200, 700))
     screen.blit(knapp_surface_tekst, (270, 730))
+    pygame.display.update()
 
 
-def resultater(spill_vinner="PLACEHOLDER"):
+
+def resultater(spill_vinner):
     # Definerer fonten til teksten her:
     screen.fill('Orange')
     text_font = pygame.font.Font(None, 90)
@@ -274,15 +211,15 @@ def resultater(spill_vinner="PLACEHOLDER"):
 
 # Rendrer ut på skjermen:
     screen.blit(text_overskrift, (400, 200))
-    screen.blit(text_vinner, (100, 100))
+    screen.blit(text_vinner, (600, 400))
 
     pygame.display.update()
+    print("Starter timer 5s")
     time.sleep(5)
+    print("Ferdig med timer 5s")
 
-    return True
 
-
-def player_selection():
+def player_selection(rando_int):
 
     # Her har jeg laget hjelpefunksjoner og andre ting som trengs:
     # Bilde for starten
@@ -295,18 +232,18 @@ def player_selection():
         "/home/pi/elsysgame/down-arrow.png")
     sel_arrow_X = 255
     sel_arrow_Y = 155
-    
-    s_next_p1 = False #
-    pre_next_p1 = False #
-    
-    s_select_p1 = False #
-    pre_select_p1 = False #
-    
-    s_next_p2 = False #
-    pre_next_p2 = False #
-    
-    s_select_p2 = False #
-    pre_select_p2 = False #
+
+    s_next_p1 = False
+    pre_next_p1 = False
+
+    s_select_p1 = False
+    pre_select_p1 = False
+
+    s_next_p2 = False
+    pre_next_p2 = False
+
+    s_select_p2 = False
+    pre_select_p2 = False
 
     # Hjelpefunsjoner:
     def arrow_pos(x, y):
@@ -320,20 +257,21 @@ def player_selection():
     word_comb = ""
     n = 0
     while n < 2:
-        
+
         pre_next_p1 = s_next_p1
         s_next_p1 = GPIO.input(17)
-        
+
         pre_select_p1 = s_select_p1
         s_select_p1 = GPIO.input(27)
-        
+
         pre_next_p2 = s_next_p2
         s_next_p2 = GPIO.input(23)
-        
+
         pre_select_p2 = s_select_p2
         s_select_p2 = GPIO.input(24)
-        
+
         if (pre_next_p1 and not s_next_p1) or (pre_next_p2 and not s_next_p2):
+            print("Flytter pil")
             if (sel_arrow_X == 255) and (sel_arrow_Y == 155):
                 sel_arrow_X = 530
             elif sel_arrow_X == 530 and sel_arrow_Y == 155:
@@ -344,85 +282,49 @@ def player_selection():
             else:
                 sel_arrow_X = 255
                 sel_arrow_Y = 155
-        
+
         if (pre_select_p1 and not s_select_p1) or (pre_select_p2 and not s_select_p2):
+            print("Svar angitt")
             if (sel_arrow_X == 255) and (sel_arrow_Y == 155) and (len(word_comb) == 0):
-                word_comb = ord_dict[1][0]
+                word_comb = ord_dict[rando_int][0]
                 n += 1
             elif (sel_arrow_X == 255) and (sel_arrow_Y == 155) and (len(word_comb) > 1):
-                word_comb += ord_dict[1][0]
+                word_comb += ord_dict[rando_int][0]
                 n += 1
             if (sel_arrow_X == 530) and (sel_arrow_Y == 155) and (len(word_comb) == 0):
-                word_comb = ord_dict[1][1]
+                word_comb = ord_dict[rando_int][1]
                 n += 1
             elif (sel_arrow_X == 530) and (sel_arrow_Y == 155) and (len(word_comb) > 0):
-                word_comb += ord_dict[1][1]
+                word_comb += ord_dict[rando_int][1]
                 n += 1
             if (sel_arrow_X == 255) and (sel_arrow_Y == 350) and (len(word_comb) == 0):
-                word_comb = ord_dict[1][2]
+                word_comb = ord_dict[rando_int][2]
                 n += 1
             elif (sel_arrow_X == 255) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
-                word_comb += ord_dict[1][2]
+                word_comb += ord_dict[rando_int][2]
                 n += 1
             if (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) == 0):
-                word_comb = ord_dict[1][3]
+                word_comb = ord_dict[rando_int][3]
                 n += 1
             elif (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
-                word_comb += ord_dict[1][3]
+                word_comb += ord_dict[rando_int][3]
                 n += 1
-            
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        # if keystroke is change arrow position, and selection logic
-
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:  # movement of arrow logic
-                    if (sel_arrow_X == 255) and (sel_arrow_Y == 155):
-                        sel_arrow_X = 530
-                    elif sel_arrow_X == 530 and sel_arrow_Y == 155:
-                        sel_arrow_Y = 350
-                        sel_arrow_X = 255
-                    elif sel_arrow_X == 255 and sel_arrow_Y == 350:
-                        sel_arrow_X = 530
-                    else:
-                        sel_arrow_X = 255
-                        sel_arrow_Y = 155
-                if event.key == pygame.K_LEFT:  # selection logic, every "if" is for the first word, the elifs are for second words
-                    if (sel_arrow_X == 255) and (sel_arrow_Y == 155) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][0]
-                        n += 1
-                    elif (sel_arrow_X == 255) and (sel_arrow_Y == 155) and (len(word_comb) > 1):
-                        word_comb += ord_dict[1][0]
-                        n += 1
-                    if (sel_arrow_X == 530) and (sel_arrow_Y == 155) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][1]
-                        n += 1
-                    elif (sel_arrow_X == 530) and (sel_arrow_Y == 155) and (len(word_comb) > 0):
-                        word_comb += ord_dict[1][1]
-                        n += 1
-                    if (sel_arrow_X == 255) and (sel_arrow_Y == 350) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][2]
-                        n += 1
-                    elif (sel_arrow_X == 255) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
-                        word_comb += ord_dict[1][2]
-                        n += 1
-                    if (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) == 0):
-                        word_comb = ord_dict[1][3]
-                        n += 1
-                    elif (sel_arrow_X == 530) and (sel_arrow_Y == 350) and (len(word_comb) > 0):
-                        word_comb += ord_dict[1][3]
-                        n += 1
+                if event.key == pygame.K_q:
+                    running = False
+                    pygame.quit()
 
         screen.fill('Orange')
         screen.blit(seksjoner, (100, 25))
         text_to_screen(word_comb, 190, 50)
-        text_to_screen(ord_dict[1][0], 190, 240)
-        text_to_screen(ord_dict[1][1], 450, 240)
-        text_to_screen(ord_dict[1][2], 190, 480)
-        text_to_screen(ord_dict[1][3], 450, 480)
+        text_to_screen(ord_dict[rando_int][0], 190, 240)
+        text_to_screen(ord_dict[rando_int][1], 450, 240)
+        text_to_screen(ord_dict[rando_int][2], 190, 480)
+        text_to_screen(ord_dict[rando_int][3], 450, 480)
         arrow_pos(sel_arrow_X, sel_arrow_Y)
         pygame.display.update()
     time.sleep(1)
@@ -470,9 +372,40 @@ def score(answer_p1, answer_p2):
     pygame.draw.line(screen, white,
                      (startX2, startY2), (endX2, endY2), width)
 
-    pygame.display.update()
+    # Wait function:
+    s_p1 = False
+    pre_p1 = False
+
+    s_p2 = False
+    pre_p2 = False
+
+    running = True
+    pygame.display.update()  # Må kanskje flyttes ned
+
+    while running:
+        stringer = ""
+        
+        pre_p1 = s_p1
+        s_p1 = GPIO.input(3)
+
+        pre_p2 = s_p2
+        s_p2 = GPIO.input(4)
+        
+        if pre_p1 and not s_p1:
+            running = False
+            stringer = "P1"
+            
+            
+
+        if pre_p2 and not s_p2:
+            running = False
+            stringer = "P2"
+            
+    return stringer
+            
 
 
 if __name__ == "__main__":
     # call the main function
     main()
+    pygame.quit()
