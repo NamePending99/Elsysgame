@@ -72,6 +72,7 @@ def main():
     counter = 0
 
     while running:
+        word_choice = random.randint(1, len(ord_dict))
         pygame.display.set_caption("N&N Minigame")
         time.sleep(0.2)
         
@@ -88,8 +89,8 @@ def main():
         
         
         if pre_start and not state_start:
-            spiller1_ord = player_selection()
-            spiller2_ord = player_selection()
+            spiller1_ord = player_selection(word_choice)
+            spiller2_ord = player_selection(word_choice)
             score(spiller1_ord, spiller2_ord)
             
         if pre_p1 and not s_p1:
@@ -106,16 +107,16 @@ def main():
                 ps1 = ps2 = 0
                 counter += 1
 
-                spiller1_ord = player_selection()
-                spiller2_ord = player_selection()
+                spiller1_ord = player_selection(word_choice)
+                spiller2_ord = player_selection(word_choice)
                 score(spiller1_ord, spiller2_ord)
             else:
                 globalscore_p2 += 1
                 ps1 = ps2 = 0
                 counter += 1
 
-                spiller1_ord = player_selection()
-                spiller2_ord = player_selection()
+                spiller1_ord = player_selection(word_choice)
+                spiller2_ord = player_selection(word_choice)
                 score(spiller1_ord, spiller2_ord)
     
         if counter >= 2:
@@ -151,8 +152,8 @@ def main():
 
             if event.type == pygame.KEYDOWN: #
                 if event.key == pygame.K_s:
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
+                    spiller1_ord = player_selection(word_choice)
+                    spiller2_ord = player_selection(word_choice)
                     score(spiller1_ord, spiller2_ord)
 
             if event.type == pygame.KEYDOWN: ##
@@ -169,16 +170,16 @@ def main():
                     ps1 = ps2 = 0
                     counter += 1
 
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
+                    spiller1_ord = player_selection(word_choice)
+                    spiller2_ord = player_selection(word_choice)
                     score(spiller1_ord, spiller2_ord)
                 else:
                     globalscore_p2 += 1
                     ps1 = ps2 = 0
                     counter += 1
 
-                    spiller1_ord = player_selection()
-                    spiller2_ord = player_selection()
+                    spiller1_ord = player_selection(word_choice)
+                    spiller2_ord = player_selection(word_choice)
                     score(spiller1_ord, spiller2_ord)
 
             if counter >= 2:
@@ -419,10 +420,10 @@ def player_selection():
         screen.fill('Orange')
         screen.blit(seksjoner, (100, 25))
         text_to_screen(word_comb, 190, 50)
-        text_to_screen(ord_dict[1][0], 190, 240)
-        text_to_screen(ord_dict[1][1], 450, 240)
-        text_to_screen(ord_dict[1][2], 190, 480)
-        text_to_screen(ord_dict[1][3], 450, 480)
+        text_to_screen(ord_dict[word_choice][0], 190, 240)
+        text_to_screen(ord_dict[word_choice][1], 450, 240)
+        text_to_screen(ord_dict[word_choice][2], 190, 480)
+        text_to_screen(ord_dict[word_choice][3], 450, 480)
         arrow_pos(sel_arrow_X, sel_arrow_Y)
         pygame.display.update()
     time.sleep(1)
